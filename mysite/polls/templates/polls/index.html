@@ -1,12 +1,15 @@
-<form action="{% url 'polls:vote' department.cost_center %}" method="post">
-{% csrf_token %}
-<fieldset>
-    <legend><h1>"Who is your favorite employee?"</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for employee in department.employee_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-</fieldset>
-<input type="submit" value="Vote">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to the Polls Homepage!</title>
+</head>
+<body>
+<p>Choose a form: </p>
+<ul>
+    <li><a href = "{% url 'polls:form1' %}">Form 1</a></li>
+    <li><a href = "{% url 'polls:form2' %}">Form 2</a></li>
+    <li><a href = "{% url 'polls:form3' %}">Form 3</a></li>
+</ul>
+</body>
+</html>

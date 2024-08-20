@@ -1,6 +1,6 @@
 <form action="{% url 'polls:vote' %}" method="post">
     {% csrf_token %}
     <label for="favorite">Who is your favorite employee?</label>
-    <input id="favorite" type="text" name="favorite">
+    <input id="id" type="text" name="favorite">
     <input type="submit" value="OK">
 </form>

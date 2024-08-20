@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -122,3 +123,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#==============
+'''
+from django.forms.renderers import TemplatesSetting
+class CustomFormRenderer(TemplatesSetting):
+    field_template_name = "field_snippet.html"
+
+FORM_RENDERER = "project.settings.CustomFormRenderer"
+'''
