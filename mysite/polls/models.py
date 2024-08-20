@@ -17,6 +17,7 @@ class Room_Item(models.Model):
 class Department(models.Model):
     cost_center = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
+    favorite = models.CharField(null=True, max_length=100)
 
 class Employee(models.Model):
     id = models.IntegerField(primary_key=True)
