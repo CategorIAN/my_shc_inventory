@@ -1,54 +1,16 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from .models import Department, AuthorForm, Author, SimplePurchaseForm, SimplePurchase
-from .forms import ContactForm
+from .models import SimplePurchaseForm, PurchaseForm, Employee, Department
 from django.shortcuts import render
 
-
 def index(request):
-    template = loader.get_template("polls/index.html")
-    context = {}
-    return HttpResponse(template.render(context, request))
-
-def form1(request):
-    template = loader.get_template("polls/form1.html")
-    context = {}
-    return HttpResponse(template.render(context, request))
-
-def form2(request):
-    template = loader.get_template("polls/form2.html")
-    department = Department.objects.get(cost_center=11000)
-    context = {"department": department}
-    return HttpResponse(template.render(context, request))
-
-def results(request, favorite):
-    template = loader.get_template("polls/results.html")
-    context = {"favorite": favorite}
-    return HttpResponse(template.render(context, request))
-
-def vote(request):
-    favorite = request.POST["favorite"]
-    admin_dept = Department.objects.get(cost_center=11000)
-    admin_dept.favorite = favorite
-    admin_dept.save()
-    return HttpResponseRedirect("/polls/results/{}".format(favorite))
-
-def form3(request):
-    form = ContactForm()
-    rendered_form = form.render("polls/form_snippet.html")
-    return render(request, "polls/form3.html", {"form": rendered_form})
+    return render(request, "polls/index.html", {})
 
 def thanks(request):
-    template = loader.get_template("polls/thanks.html")
-    context = {}
-    return HttpResponse(template.render(context, request))
+    return render(request, "polls/thanks.html", {})
 
-def thanks_back(request):
+def do_nothing(request):
     return HttpResponseRedirect("/polls/thanks")
-
-def form4(request):
-    form = AuthorForm()
-    return render(request, "polls/form4.html", {"form": form})
 
 def simple_purchase(request):
     return render(request, "polls/simplepurchase.html", {"form": SimplePurchaseForm()})
@@ -57,7 +19,16 @@ def modelform_to_model(request):
     SimplePurchaseForm(request.POST).save()
     return HttpResponseRedirect("/polls/thanks")
 
+def purchase_initial(request):
+    return render(request, "polls/purchase_initial.html", {"form": PurchaseForm()})
 
+def enter_initial(request):
+    initial = PurchaseForm(request.POST)
+    employee, dept = initial.data['employee'], initial.data['dept']
+    return HttpResponseRedirect("/polls/purchase_items/{}/{}".format(employee, dept))
 
-
-
+def purchase_items(request, employee, dept):
+    employee = Employee.objects.get(id=employee)
+    dept = Department.objects.get(cost_center=dept)
+    context = {"employee": employee, "dept": dept}
+    return render(request, "polls/purchase_items.html", context)

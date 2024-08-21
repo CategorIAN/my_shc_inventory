@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
+from django.db.models.functions import Now
 
 class Item(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -43,9 +44,8 @@ class Employee(models.Model):
 #=========================================================================================
 
 class Purchase(models.Model):
-    id = models.IntegerField(primary_key=True)
-    dept = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    dept = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
 
 class Room_Item_Purchase(models.Model):
     purchase = models.ForeignKey(Purchase, on_delete=models.SET_NULL, null=True)
@@ -55,6 +55,7 @@ class Room_Item_Purchase(models.Model):
 #===========================================================================================
 
 class SimplePurchase(models.Model):
+    created_at = models.DateTimeField(db_default=Now(), primary_key=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     dept = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     room_item = models.ForeignKey(Room_Item, on_delete=models.SET_NULL, null=True)
@@ -67,30 +68,7 @@ class SimplePurchaseForm(ModelForm):
 
 #===========================================================================================
 
-TITLE_CHOICES = {
-    "MR": "Mr.",
-    "MRS": "Mrs.",
-    "MS": "Ms.",
-}
-
-class Author(models.Model):
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=3, choices=TITLE_CHOICES)
-    birth_date = models.DateField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-class Book(models.Model):
-    name = models.CharField(max_length=100)
-    authors = models.ManyToManyField(Author)
-
-class AuthorForm(ModelForm):
+class PurchaseForm(ModelForm):
     class Meta:
-        model = Author
-        fields = ["name", "title", "birth_date"]
-
-class BookForm(ModelForm):
-    class Meta:
-        model = Book
-        fields = ["name", "authors"]
+        model = Purchase
+        fields = ["employee", "dept"]
