@@ -1,14 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from .models import Department
-from .forms import NameForm, ContactForm
+from .models import Department, AuthorForm, Author, SimplePurchaseForm, SimplePurchase
+from .forms import ContactForm
 from django.shortcuts import render
 
 
 def index(request):
     template = loader.get_template("polls/index.html")
-    #department = Department.objects.get(cost_center=cost_center)
-    #context = {"department": department}
     context = {}
     return HttpResponse(template.render(context, request))
 
@@ -47,6 +45,18 @@ def thanks(request):
 
 def thanks_back(request):
     return HttpResponseRedirect("/polls/thanks")
+
+def form4(request):
+    form = AuthorForm()
+    return render(request, "polls/form4.html", {"form": form})
+
+def simple_purchase(request):
+    return render(request, "polls/simplepurchase.html", {"form": SimplePurchaseForm()})
+
+def modelform_to_model(request):
+    SimplePurchaseForm(request.POST).save()
+    return HttpResponseRedirect("/polls/thanks")
+
 
 
 

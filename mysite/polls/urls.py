@@ -13,5 +13,10 @@ urlpatterns = [
     #======================================================================
     path("form3/", views.form3, name="form3"),
     path("thanks/", views.thanks, name="thanks"),
-    path("thanks_back/", views.thanks_back, name="thanks_back")
+    path("thanks_back/", views.thanks_back, name="thanks_back"),
+    #======================================================================
+    path("form4/", views.form4, name="form4"),
+    path("modelform_to_model/", views.modelform_to_model, name="modelform_to_model"),
+    #======================================================================
+    path("simplepurchase/", views.simple_purchase, name="simplepurchase")
 ]
