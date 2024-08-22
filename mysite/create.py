@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from polls.models import Room, Department, Item
+from polls.models import Department, Item
 
 def insert_values(table, model):
     df = pd.read_csv("\\".join([os.getcwd(), "tables", "{}.csv".format(table)]))
@@ -12,7 +12,7 @@ def insert_values(table, model):
         entry.save()
 
 def fill_tables():
-    for table, model in zip(["room", "department", "item"], [Room, Department, Item]):
+    for table, model in zip(["room", "department", "item"], [Department, Item]):
         insert_values(table, model)
 
 
